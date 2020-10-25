@@ -1,81 +1,78 @@
-const tutorialService=require('../services/tutorialService')
-const isAuthenticate= require('../services/tokenService')
-const express=require('express')
-const router=express.Router();
-const constant=require('../utils/constant')
+const tutorialService = require('../services/tutorialService');
+const isAuthenticate = require('../services/tokenService');
+const express = require('express');
+const router = express.Router();
 
-router.post("/",isAuthenticate,(req,res)=>
-{
-    console.log("  from tutoriLal controller user detail",req.user._id)
-    tutorialService.create({...req.body,author:req.user._id}).then((result) => {
+
+router.post("/", isAuthenticate, (req, res) => {
+
+    tutorialService.create({ ...req.body, author: req.user._id }).then((result) => {
         res.send(result)
-       
+
     }).catch((error) => {
-        
-        res.send(error)
-       
+
+        res.status(error.status).send(error)
+
     });
 });
 
-router.get("/:id",(req,res)=>
-{
-    console.log("calling from get by id")
+router.get("/:id", (req, res) => {
+
     tutorialService.getById(req.params.id).then((result) => {
         res.send(result)
-       
+
     }).catch((error) => {
-        
-        res.send(error)
-       
-    });
-});
-router.get("/",(req,res)=>
-{
-    console.log("calling from get all")
-    tutorialService.getAll().then((result) => {
-        res.send(result)
-       
-    }).catch((error) => {
-        
-        res.send(error)
-       
-    });
-});
-router.put("/:id",(req,res)=>
-{
-    console.log("calling from get by id")
-    tutorialService.updateById(req.params.id,req.body).then((result) => {
-        res.send(result)
-       
-    }).catch((error) => {
-        
-        res.send(error)
-       
-    });
-});
-router.delete("/:id",(req,res)=>
-{
-    console.log("calling from get by id")
-    tutorialService.deleteById(req.params.id).then((result) => {
-        res.send(result)
-       
-    }).catch((error) => {
-        
-        res.send(error)
-       
-    });
-});
-router.delete("/",(req,res)=>
-{
-    console.log("calling from get by id")
-    tutorialService.deleteAll().then((result) => {
-        res.send(result)
-       
-    }).catch((error) => {
-        
-        res.send(error)
-       
+
+        res.status(error.status).send(error)
+
     });
 });
 
-module.exports=router;
+router.get("/", (req, res) => {
+    let page = req.query.page;
+    let size = req.query.size;
+
+    tutorialService.getAll(page, size).then((result) => {
+        res.send(result)
+
+    }).catch((error) => {
+
+        res.status(error.status).send(error)
+
+    });
+});
+router.put("/:id", isAuthenticate, (req, res) => {
+
+    tutorialService.updateById(req.params.id, req.body).then((result) => {
+        res.send(result)
+
+    }).catch((error) => {
+
+        res.status(error.status).send(error)
+
+    });
+});
+router.delete("/:id", isAuthenticate, (req, res) => {
+
+    tutorialService.deleteById(req.params.id).then((result) => {
+        res.send(result)
+
+    }).catch((error) => {
+
+        res.status(error.status).send(error)
+
+    });
+});
+router.delete("/", isAuthenticate, (req, res) => {
+
+    tutorialService.deleteAll().then((result) => {
+        res.send(result)
+
+    }).catch((error) => {
+
+        res.status(error.status).send(error)
+
+    });
+});
+
+module.exports = router;

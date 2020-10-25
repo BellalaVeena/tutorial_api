@@ -1,19 +1,16 @@
-const userService=require('../services/userService')
-const express=require('express')
-const router=express.Router();
-const constant=require('../utils/constant')
+const userService = require('../services/userService');
+const express = require('express');
+const router = express.Router();
 
-router.post("/",(req,res)=>
-{
-    
+router.post("/", (req, res) => {
     userService.create(req.body).then((result) => {
+
         res.send(result)
-       
     }).catch((error) => {
-        
-        res.send(error)
-       
+
+        res.status(error.status).send(error)
+
     });
 });
 
-module.exports=router;
+module.exports = router;
