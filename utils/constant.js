@@ -1,5 +1,5 @@
 const constant={
-    PORT:4000,
+    PORT:80,
     BASE_URI:'api/v1',
     TOKEN_SECRET:'tutorial@123',
     MONGODB_URI:'mongodb://localhost/tutorial',
