@@ -17,3 +17,4 @@ app.use(`/${constant.BASE_URI}/tutorials`, require('./controller/tutorialControl
 app.listen(constant.PORT, () => {
     console.log("listening to the port" + constant.PORT);
 });
+
